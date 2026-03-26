@@ -1,0 +1,13 @@
+[project]
+name = "china-university-entity-list"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "lxml>=6.0.2",
+    "niquests>=3.18.2",
+    "pysocks>=1.7.1",
+]
+[tool.ty.environment]
+python = "./.venv"

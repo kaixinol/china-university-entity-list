@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>China University Entity List</title>
+  <meta name="description" content="Searchable list of China-based universities and similar institutions on the U.S. BIS Entity List (EAR Part 744 Supplement No. 4).">
+  <meta name="keywords" content="BIS Entity List, China universities, EAR 744 Supplement No. 4, export control, university entity list">
+  <meta name="robots" content="index,follow">
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f5f1e8;
+      --panel: #fffdf8;
+      --ink: #1f2933;
+      --muted: #5b6670;
+      --line: #d9d0c1;
+      --accent: #9b3d2f;
+      --accent-soft: #f3ddd4;
+      --highlight: #ffe08a;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(166, 60, 47, 0.12), transparent 30%),
+        linear-gradient(180deg, #efe7d6 0%, var(--bg) 100%);
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 20px 56px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    a {
+      color: var(--accent);
+    }
+
+    .panel {
+      margin-top: 28px;
+      padding: 20px;
+      background: rgba(255, 253, 248, 0.92);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: 0 20px 60px rgba(31, 41, 51, 0.08);
+      backdrop-filter: blur(10px);
+    }
+
+    .page-top {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .lang-switch {
+      display: inline-flex;
+      gap: 6px;
+      padding: 6px;
+      background: rgba(255, 253, 248, 0.92);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+    }
+
+    .lang-switch button {
+      border: 0;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .lang-switch button.active {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .search {
+      width: min(420px, 100%);
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+    }
+
+    .count {
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .status {
+      margin-bottom: 14px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    footer {
+      margin-top: 18px;
+      color: var(--muted);
+    }
+
+    footer small {
+      display: inline-block;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--panel);
+      overflow: hidden;
+      border-radius: 14px;
+    }
+
+    th, td {
+      padding: 14px 16px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid var(--line);
+    }
+
+    th {
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .name {
+      font-weight: 700;
+      width: 28%;
+    }
+
+    .raw {
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .details {
+      display: inline;
+    }
+
+    .search-meta {
+      display: none;
+    }
+
+    mark {
+      background: var(--highlight);
+      padding: 0 0.1em;
+      border-radius: 0.2em;
+    }
+
+    @media (max-width: 720px) {
+      .page-top {
+        flex-direction: column;
+      }
+
+      th:nth-child(2),
+      td:nth-child(2) {
+        display: none;
+      }
+
+      .name {
+        width: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="page-top">
+      <div>
+        <h1 id="page-title">China University Entity List</h1>
+        <p id="page-subtitle">Filtered from BIS <a href="https://www.bis.gov/regulations/ear/744#supplement-4-744" target="_blank" rel="noreferrer">EAR 744 Supplement No. 4</a>.</p>
+      </div>
+
+      <div class="lang-switch" aria-label="Language switcher">
+        <button type="button" data-lang="en">English</button>
+        <button type="button" data-lang="zh">中文</button>
+      </div>
+    </div>
+
+    <section class="panel">
+      <div class="toolbar">
+        <input class="search" placeholder="Search name or details" aria-label="Search">
+        <div class="count"><span id="count">0</span> <span id="count-label">results</span></div>
+      </div>
+
+      <div id="status" class="status">Loading data...</div>
+
+      <div id="entities">
+        <table>
+          <thead>
+            <tr>
+              <th id="name-header">Name</th>
+              <th id="details-header">Details</th>
+            </tr>
+          </thead>
+          <tbody class="list"></tbody>
+        </table>
+      </div>
+
+      <footer>
+        <small id="generated-at"></small>
+      </footer>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/list.js@2.3.1/dist/list.min.js"></script>
+  <script>
+    var TEXT = {
+      en: {
+        title: "China University Entity List",
+        subtitleHtml: 'Filtered from BIS <a href="https://www.bis.gov/regulations/ear/744#supplement-4-744" target="_blank" rel="noreferrer">EAR 744 Supplement No. 4</a>.',
+        searchPlaceholder: "Search name or details",
+        searchLabel: "Search",
+        countLabel: "results",
+        generatedAt: "Generated on",
+        loading: "Loading data...",
+        loadError: "Could not load multilingual data. Open this page through a local HTTP server.",
+        nameHeader: "Name",
+        detailsHeader: "Details",
+        pageTitle: "China University Entity List"
+      },
+      zh: {
+        title: "中国高校实体清单",
+        subtitleHtml: '基于美国 BIS《<a href="https://www.bis.gov/regulations/ear/744#supplement-4-744" target="_blank" rel="noreferrer">EAR 第744部分补编第4号</a>》筛选。',
+        searchPlaceholder: "搜索名称或详情",
+        searchLabel: "搜索",
+        countLabel: "条结果",
+        generatedAt: "生成日期",
+        loading: "正在加载数据...",
+        loadError: "无法加载多语言数据，请通过本地 HTTP 服务打开页面。",
+        nameHeader: "名称",
+        detailsHeader: "详情",
+        pageTitle: "中国高校实体清单"
+      }
+    };
+
+    var state = {
+      lang: "en",
+      rows: [],
+      list: null
+    };
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, function (char) {
+        return {
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;"
+        }[char];
+      });
+    }
+
+    function highlight(value, query) {
+      var escaped = escapeHtml(value);
+      if (!query) {
+        return escaped;
+      }
+
+      var pattern = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      return escaped.replace(new RegExp("(" + pattern + ")", "ig"), "<mark>$1</mark>");
+    }
+
+    function detectLanguage() {
+      var saved = localStorage.getItem("preferred-language");
+      if (saved === "en" || saved === "zh") {
+        return saved;
+      }
+
+      var browserLang = (navigator.language || "").toLowerCase();
+      return browserLang.startsWith("zh") ? "zh" : "en";
+    }
+
+    function updateCount() {
+      document.getElementById("count").textContent = state.list.visibleItems.length;
+    }
+
+    function currentTexts() {
+      return TEXT[state.lang];
+    }
+
+    function applyLanguageChrome() {
+      var texts = currentTexts();
+      document.documentElement.lang = state.lang === "zh" ? "zh-CN" : "en";
+      document.title = texts.pageTitle;
+      document.getElementById("page-title").textContent = texts.title;
+      document.getElementById("page-subtitle").innerHTML = texts.subtitleHtml;
+      document.querySelector(".search").placeholder = texts.searchPlaceholder;
+      document.querySelector(".search").setAttribute("aria-label", texts.searchLabel);
+      document.getElementById("count-label").textContent = texts.countLabel;
+      document.getElementById("name-header").textContent = texts.nameHeader;
+      document.getElementById("details-header").textContent = texts.detailsHeader;
+      updateGeneratedAt();
+
+      document.querySelectorAll("[data-lang]").forEach(function (button) {
+        button.classList.toggle("active", button.dataset.lang === state.lang);
+      });
+    }
+
+    function renderRows() {
+      var query = document.querySelector(".search").value.trim();
+      state.list.visibleItems.forEach(function (entry) {
+        var index = Number(entry.values().rowIndex);
+        var row = state.rows[index];
+        var displayName = state.lang === "zh" ? (row.nameZh || row.nameEn) : row.nameEn;
+        entry.elm.querySelector(".nameDisplay").innerHTML = highlight(displayName, query);
+        entry.elm.querySelector(".detailsDisplay").innerHTML = highlight(row.raw, query);
+      });
+    }
+
+    function setLanguage(lang) {
+      state.lang = lang;
+      localStorage.setItem("preferred-language", lang);
+      applyLanguageChrome();
+      renderRows();
+    }
+
+    function updateGeneratedAt() {
+      var texts = currentTexts();
+      var now = new Date();
+      var locale = state.lang === "zh" ? "zh-CN" : "en-US";
+      document.getElementById("generated-at").textContent =
+        texts.generatedAt + ": " + now.toLocaleDateString(locale);
+    }
+
+    async function fetchJson(path) {
+      var response = await fetch(path);
+      if (!response.ok) {
+        throw new Error("Failed to fetch " + path);
+      }
+      return response.json();
+    }
+
+    async function loadData() {
+      var results = await Promise.all([fetchJson("data.json"), fetchJson("data-cn.json")]);
+      var englishRows = results[0];
+      var chineseRows = results[1];
+      var chineseMap = new Map(chineseRows.map(function (item) {
+        return [item.name, item.zh];
+      }));
+
+      return englishRows.map(function (item) {
+        return {
+          nameEn: item.name,
+          nameZh: chineseMap.get(item.name) || "",
+          raw: item.raw
+        };
+      });
+    }
+
+    async function main() {
+      var status = document.getElementById("status");
+      var input = document.querySelector(".search");
+
+      state.lang = detectLanguage();
+      applyLanguageChrome();
+      status.textContent = currentTexts().loading;
+
+      document.querySelectorAll("[data-lang]").forEach(function (button) {
+        button.addEventListener("click", function () {
+          setLanguage(button.dataset.lang);
+        });
+      });
+
+      try {
+        state.rows = await loadData();
+        status.textContent = "";
+
+        state.list = new List("entities", {
+          valueNames: ["rowIndex", "nameEn", "nameZh", "rawSearch"],
+          searchColumns: ["nameEn", "nameZh", "rawSearch"],
+          item: '<tr><td class="name"><span class="nameDisplay"></span><span class="rowIndex search-meta"></span><span class="nameEn search-meta"></span><span class="nameZh search-meta"></span></td><td class="raw"><span class="detailsDisplay"></span><span class="rawSearch search-meta"></span></td></tr>'
+        });
+
+        state.list.add(state.rows.map(function (row, index) {
+          return {
+            rowIndex: String(index),
+            nameEn: row.nameEn,
+            nameZh: row.nameZh,
+            rawSearch: row.raw
+          };
+        }));
+
+        input.addEventListener("input", function () {
+          state.list.search(input.value);
+        });
+
+        state.list.on("updated", function () {
+          updateCount();
+          renderRows();
+        });
+
+        updateCount();
+        renderRows();
+      } catch (error) {
+        status.textContent = currentTexts().loadError;
+      }
+    }
+
+    main();
+  </script>
+</body>
+</html>
