@@ -2,6 +2,8 @@
 
 Small Python project that scrapes the BIS Entity List, filters China university-like entities, and writes `data.json`. The frontend is a static `index.html` that loads `data.json` with `fetch()`.
 
+`data.json` includes a top-level `generatedAt` timestamp and an `entries` array so the page can display the actual scrape time.
+
 ## Run
 
 ```bash

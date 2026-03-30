@@ -251,7 +251,7 @@
         searchPlaceholder: "Search name or details",
         searchLabel: "Search",
         countLabel: "results",
-        generatedAt: "Generated on",
+        generatedAt: "Scraped on",
         loading: "Loading data...",
         loadError: "Could not load multilingual data. Open this page through a local HTTP server.",
         nameHeader: "Name",
@@ -264,7 +264,7 @@
         searchPlaceholder: "搜索名称或详情",
         searchLabel: "搜索",
         countLabel: "条结果",
-        generatedAt: "生成日期",
+        generatedAt: "爬取日期",
         loading: "正在加载数据...",
         loadError: "无法加载多语言数据，请通过本地 HTTP 服务打开页面。",
         nameHeader: "名称",
@@ -276,7 +276,8 @@
     var state = {
       lang: "en",
       rows: [],
-      list: null
+      list: null,
+      generatedAt: null
     };
 
     function escapeHtml(value) {
@@ -357,10 +358,20 @@
 
     function updateGeneratedAt() {
       var texts = currentTexts();
-      var now = new Date();
+      var value = state.generatedAt ? new Date(state.generatedAt) : new Date();
       var locale = state.lang === "zh" ? "zh-CN" : "en-US";
+      var formatted = isNaN(value.getTime())
+        ? String(state.generatedAt || "")
+        : value.toLocaleString(locale, {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit"
+          });
       document.getElementById("generated-at").textContent =
-        texts.generatedAt + ": " + now.toLocaleDateString(locale);
+        texts.generatedAt + ": " + formatted;
     }
 
     async function fetchJson(path) {
@@ -373,19 +384,23 @@
 
     async function loadData() {
       var results = await Promise.all([fetchJson("data.json"), fetchJson("data-cn.json")]);
-      var englishRows = results[0];
+      var englishData = results[0];
       var chineseRows = results[1];
+      var englishRows = Array.isArray(englishData) ? englishData : (englishData.entries || []);
       var chineseMap = new Map(chineseRows.map(function (item) {
         return [item.name, item.zh];
       }));
 
-      return englishRows.map(function (item) {
-        return {
-          nameEn: item.name,
-          nameZh: chineseMap.get(item.name) || "",
-          raw: item.raw
-        };
-      });
+      return {
+        generatedAt: Array.isArray(englishData) ? null : (englishData.generatedAt || null),
+        rows: englishRows.map(function (item) {
+          return {
+            nameEn: item.name,
+            nameZh: chineseMap.get(item.name) || "",
+            raw: item.raw
+          };
+        })
+      };
     }
 
     async function main() {
@@ -403,8 +418,11 @@
       });
 
       try {
-        state.rows = await loadData();
+        var data = await loadData();
+        state.rows = data.rows;
+        state.generatedAt = data.generatedAt;
         status.textContent = "";
+        updateGeneratedAt();
 
         state.list = new List("entities", {
           valueNames: ["rowIndex", "nameEn", "nameZh", "rawSearch"],

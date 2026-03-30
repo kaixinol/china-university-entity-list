@@ -1,6 +1,7 @@
 import json
 import re
 import warnings
+from datetime import datetime, timezone
 from pathlib import Path
 
 import niquests
@@ -99,11 +100,36 @@ def parse_entries(page_html: str) -> list[dict[str, str]]:
     return sorted(deduped.values(), key=lambda entry: entry['name'].casefold())
 
 
+def load_existing_payload() -> dict[str, object] | None:
+    if not OUTPUT_JSON.exists():
+        return None
+
+    existing = json.loads(OUTPUT_JSON.read_text(encoding='utf-8'))
+    if isinstance(existing, list):
+        return {'generatedAt': None, 'entries': existing}
+    if isinstance(existing, dict):
+        return {
+            'generatedAt': existing.get('generatedAt'),
+            'entries': existing.get('entries', []),
+        }
+    return None
+
+
 def main() -> None:
     page_html = fetch_page()
     data = parse_entries(page_html)
+    existing = load_existing_payload()
+    generated_at = datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')
+
+    if existing and existing.get('entries') == data and existing.get('generatedAt'):
+        generated_at = str(existing['generatedAt'])
+
+    payload = {
+        'generatedAt': generated_at,
+        'entries': data,
+    }
     OUTPUT_JSON.write_text(
-        json.dumps(data, ensure_ascii=False, indent=2) + '\n',
+        json.dumps(payload, ensure_ascii=False, indent=2) + '\n',
         encoding='utf-8',
     )
     print(f'Wrote {len(data)} entries to {OUTPUT_JSON}')
