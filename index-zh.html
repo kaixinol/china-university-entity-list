@@ -1,19 +1,19 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>China University Entity List</title>
+    <title>中国高校实体清单</title>
     <meta
       name="description"
-      content="Searchable list of China-based universities and similar institutions on the U.S. BIS Entity List (EAR Part 744 Supplement No. 4)."
+      content="可搜索的中国高校及类似机构美国 BIS 实体清单汇总，基于 EAR 第744部分补编第4号筛选。"
     />
     <meta
       name="keywords"
-      content="BIS Entity List, China universities, EAR 744 Supplement No. 4, export control, university entity list"
+      content="BIS 实体清单, 中国高校, EAR 第744部分补编第4号, 出口管制, 高校实体清单"
     />
     <meta name="robots" content="index,follow" />
-    <link rel="canonical" href="index.html" />
+    <link rel="canonical" href="index-zh.html" />
     <link rel="alternate" hreflang="en" href="index.html" />
     <link rel="alternate" hreflang="zh-CN" href="index-zh.html" />
     <link rel="alternate" hreflang="x-default" href="index.html" />
@@ -21,11 +21,11 @@
       {
         "@context": "https://schema.org",
         "@type": "CollectionPage",
-        "name": "China University Entity List",
-        "inLanguage": "en",
+        "name": "中国高校实体清单",
+        "inLanguage": "zh-CN",
         "mainEntity": {
           "@type": "ItemList",
-          "name": "China University Entity List",
+          "name": "中国高校实体清单",
           "numberOfItems": 0,
           "itemListElement": []
         }
@@ -236,56 +236,51 @@
     <main>
       <noscript>
         <div class="noscript-note">
-          Search requires JavaScript, but you can still read the page intro and
-          switch languages here:
-          <a href="index-zh.html">中文页面</a>.
+          当前页面的搜索功能依赖 JavaScript，但你仍然可以查看页面说明并切换语言：
+          <a href="index.html">English</a>。
         </div>
       </noscript>
 
       <div class="page-top">
         <div>
-          <h1>China University Entity List</h1>
+          <h1>中国高校实体清单</h1>
           <p>
-            Filtered from BIS
+            基于美国 BIS《
             <a
               href="https://www.bis.gov/regulations/ear/744#supplement-4-744"
               target="_blank"
               rel="noreferrer"
-              >EAR 744 Supplement No. 4</a
-            >.
+              >EAR 第744部分补编第4号</a
+            >》筛选。
           </p>
         </div>
 
         <nav class="lang-switch" aria-label="Language switcher">
+          <a href="index.html" data-lang-link="en">English</a>
           <a
             class="active"
-            href="index.html"
-            data-lang-link="en"
+            href="index-zh.html"
+            data-lang-link="zh"
             aria-current="page"
-            >English</a
+            >中文</a
           >
-          <a href="index-zh.html" data-lang-link="zh">中文</a>
         </nav>
       </div>
 
       <section class="panel">
         <div class="toolbar">
-          <input
-            class="search"
-            placeholder="Search name or details"
-            aria-label="Search"
-          />
-          <div class="count"><span id="count">0</span> results</div>
+          <input class="search" placeholder="搜索名称或详情" aria-label="搜索" />
+          <div class="count"><span id="count">0</span> 条结果</div>
         </div>
 
-        <div id="status" class="status">Loading data...</div>
+        <div id="status" class="status">正在加载数据...</div>
 
         <div id="entities">
           <table>
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Details</th>
+                <th>名称</th>
+                <th>详情</th>
               </tr>
             </thead>
             <tbody class="list"></tbody>
@@ -301,13 +296,12 @@
     <script src="https://cdn.jsdelivr.net/npm/list.js@2.3.1/dist/list.min.js"></script>
     <script>
       var PAGE = {
-        lang: "en",
-        alternatePath: "index-zh.html",
-        pageTitle: "China University Entity List",
-        generatedAtLabel: "Scraped on",
-        loadingText: "Loading data...",
-        loadErrorText:
-          "Could not load multilingual data. Open this page through a local HTTP server.",
+        lang: "zh",
+        alternatePath: "index.html",
+        pageTitle: "中国高校实体清单",
+        generatedAtLabel: "爬取日期",
+        loadingText: "正在加载数据...",
+        loadErrorText: "无法加载多语言数据，请通过本地 HTTP 服务打开页面。",
       };
 
       var state = {
@@ -381,7 +375,7 @@
         var value = state.generatedAt ? new Date(state.generatedAt) : new Date();
         var formatted = isNaN(value.getTime())
           ? String(state.generatedAt || "")
-          : value.toLocaleString("en-US", {
+          : value.toLocaleString("zh-CN", {
               year: "numeric",
               month: "2-digit",
               day: "2-digit",
@@ -406,8 +400,8 @@
             position: index + 1,
             item: {
               "@type": "CollegeOrUniversity",
-              name: row.nameEn,
-              alternateName: row.nameZh || undefined,
+              name: row.nameZh || row.nameEn,
+              alternateName: row.nameZh ? row.nameEn : undefined,
               description: row.raw,
             },
           };
@@ -418,7 +412,7 @@
             "@context": "https://schema.org",
             "@type": "CollectionPage",
             name: PAGE.pageTitle,
-            inLanguage: "en",
+            inLanguage: "zh-CN",
             mainEntity: {
               "@type": "ItemList",
               name: PAGE.pageTitle,
@@ -436,8 +430,9 @@
         state.list.visibleItems.forEach(function (entry) {
           var index = Number(entry.values().rowIndex);
           var row = state.rows[index];
+          var displayName = row.nameZh || row.nameEn;
           entry.elm.querySelector(".nameDisplay").innerHTML = highlight(
-            row.nameEn,
+            displayName,
             query,
           );
           entry.elm.querySelector(".detailsDisplay").innerHTML = highlight(
@@ -506,9 +501,9 @@
           updateStructuredData();
 
           state.list = new List("entities", {
-            valueNames: ["rowIndex", "nameEn", "rawSearch"],
-            searchColumns: ["nameEn", "rawSearch"],
-            item: '<tr><td class="name"><span class="nameDisplay"></span><span class="rowIndex search-meta"></span><span class="nameEn search-meta"></span></td><td class="raw"><span class="detailsDisplay"></span><span class="rawSearch search-meta"></span></td></tr>',
+            valueNames: ["rowIndex", "nameEn", "nameZh", "rawSearch"],
+            searchColumns: ["nameEn", "nameZh", "rawSearch"],
+            item: '<tr><td class="name"><span class="nameDisplay"></span><span class="rowIndex search-meta"></span><span class="nameEn search-meta"></span><span class="nameZh search-meta"></span></td><td class="raw"><span class="detailsDisplay"></span><span class="rawSearch search-meta"></span></td></tr>',
           });
 
           state.list.add(
@@ -516,6 +511,7 @@
               return {
                 rowIndex: String(index),
                 nameEn: row.nameEn,
+                nameZh: row.nameZh,
                 rawSearch: row.raw,
               };
             }),
