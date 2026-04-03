@@ -295,7 +295,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/list.js@2.3.1/dist/list.min.js"></script>
     <script>
-      var PAGE = {
+      const PAGE = {
         lang: "zh",
         alternatePath: "index.html",
         pageTitle: "中国高校实体清单",
@@ -304,17 +304,18 @@
         loadErrorText: "无法加载多语言数据，请通过本地 HTTP 服务打开页面。",
       };
 
-      var state = {
+      const state = {
         rows: [],
         list: null,
         generatedAt: null,
       };
 
+      // Language preference handling
       function getPreferredLanguage() {
         try {
-          var value = localStorage.getItem("preferred-language");
-          return value === "en" || value === "zh" ? value : null;
-        } catch (error) {
+          const value = localStorage.getItem("preferred-language");
+          return ["en", "zh"].includes(value) ? value : null;
+        } catch {
           return null;
         }
       }
@@ -322,60 +323,45 @@
       function savePreferredLanguage(lang) {
         try {
           localStorage.setItem("preferred-language", lang);
-        } catch (error) {}
+        } catch {}
       }
 
       function maybeRedirectToPreferredLanguage() {
-        var preferred = getPreferredLanguage();
-        if (!preferred || preferred === PAGE.lang) {
-          return;
-        }
+        const preferred = getPreferredLanguage();
+        if (!preferred || preferred === PAGE.lang) return;
 
-        var target = PAGE.alternatePath;
-        if (location.pathname.endsWith("/" + target) || location.pathname === target) {
-          return;
-        }
+        const target = PAGE.alternatePath;
+        if (location.pathname.endsWith("/" + target) || location.pathname === target) return;
 
         location.replace(target);
       }
 
       maybeRedirectToPreferredLanguage();
 
-      function escapeHtml(value) {
-        return String(value).replace(/[&<>"']/g, function (char) {
-          return {
-            "&": "&amp;",
-            "<": "&lt;",
-            ">": "&gt;",
-            '"': "&quot;",
-            "'": "&#39;",
-          }[char];
-        });
-      }
-
-      function highlight(value, query) {
-        var escaped = escapeHtml(value);
-        if (!query) {
-          return escaped;
-        }
-
-        var pattern = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-        return escaped.replace(
-          new RegExp("(" + pattern + ")", "ig"),
-          "<mark>$1</mark>",
+      // HTML utilities
+      const escapeHtml = (str) => 
+        String(str).replace(/[&<>"']/g, (char) => 
+          ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]
         );
-      }
 
-      function updateCount() {
-        document.getElementById("count").textContent =
-          state.list.visibleItems.length;
-      }
+      const highlight = (value, query) => {
+        const escaped = escapeHtml(value);
+        if (!query) return escaped;
+        
+        const pattern = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        return escaped.replace(new RegExp(`(${pattern})`, "ig"), "<mark>$1</mark>");
+      };
 
-      function updateGeneratedAt() {
-        var value = state.generatedAt ? new Date(state.generatedAt) : new Date();
-        var formatted = isNaN(value.getTime())
+      // UI updates
+      const updateCount = () => {
+        document.getElementById("count").textContent = state.list?.visibleItems.length || 0;
+      };
+
+      const updateGeneratedAt = () => {
+        const date = state.generatedAt ? new Date(state.generatedAt) : new Date();
+        const formatted = isNaN(date.getTime()) 
           ? String(state.generatedAt || "")
-          : value.toLocaleString("zh-CN", {
+          : date.toLocaleString("zh-CN", {
               year: "numeric",
               month: "2-digit",
               day: "2-digit",
@@ -384,108 +370,87 @@
               second: "2-digit",
             });
 
-        document.getElementById("generated-at").textContent =
-          PAGE.generatedAtLabel + ": " + formatted;
-      }
+        document.getElementById("generated-at").textContent = `${PAGE.generatedAtLabel}: ${formatted}`;
+      };
 
-      function updateStructuredData() {
-        var node = document.getElementById("structured-data");
-        if (!node) {
-          return;
-        }
+      const updateStructuredData = () => {
+        const node = document.getElementById("structured-data");
+        if (!node) return;
 
-        var itemListElement = state.rows.map(function (row, index) {
-          return {
-            "@type": "ListItem",
-            position: index + 1,
-            item: {
-              "@type": "CollegeOrUniversity",
-              name: row.nameZh || row.nameEn,
-              alternateName: row.nameZh ? row.nameEn : undefined,
-              description: row.raw,
-            },
-          };
-        });
-
-        node.textContent = JSON.stringify(
-          {
-            "@context": "https://schema.org",
-            "@type": "CollectionPage",
-            name: PAGE.pageTitle,
-            inLanguage: "zh-CN",
-            mainEntity: {
-              "@type": "ItemList",
-              name: PAGE.pageTitle,
-              numberOfItems: itemListElement.length,
-              itemListElement: itemListElement,
-            },
+        const itemListElement = state.rows.map((row, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          item: {
+            "@type": "CollegeOrUniversity",
+            name: row.nameZh || row.nameEn,
+            alternateName: row.nameZh ? row.nameEn : undefined,
+            description: row.raw,
           },
-          null,
-          2,
-        );
-      }
+        }));
 
-      function renderRows() {
-        var query = document.querySelector(".search").value.trim();
-        state.list.visibleItems.forEach(function (entry) {
-          var index = Number(entry.values().rowIndex);
-          var row = state.rows[index];
-          var displayName = row.nameZh || row.nameEn;
-          entry.elm.querySelector(".nameDisplay").innerHTML = highlight(
-            displayName,
-            query,
-          );
-          entry.elm.querySelector(".detailsDisplay").innerHTML = highlight(
-            row.raw,
-            query,
-          );
+        node.textContent = JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: PAGE.pageTitle,
+          inLanguage: "zh-CN",
+          mainEntity: {
+            "@type": "ItemList",
+            name: PAGE.pageTitle,
+            numberOfItems: itemListElement.length,
+            itemListElement,
+          },
+        }, null, 2);
+      };
+
+      const renderRows = () => {
+        const query = document.querySelector(".search")?.value.trim() || "";
+        state.list?.visibleItems.forEach(entry => {
+          const index = Number(entry.values().rowIndex);
+          const row = state.rows[index];
+          const displayName = row.nameZh || row.nameEn;
+          entry.elm.querySelector(".nameDisplay").innerHTML = highlight(displayName, query);
+          entry.elm.querySelector(".detailsDisplay").innerHTML = highlight(row.raw, query);
         });
-      }
+      };
 
-      async function fetchJson(path) {
-        var response = await fetch(path);
-        if (!response.ok) {
-          throw new Error("Failed to fetch " + path);
-        }
+      // Data loading
+      const fetchJson = async (path) => {
+        const response = await fetch(path);
+        if (!response.ok) throw new Error(`Failed to fetch ${path}`);
         return response.json();
-      }
+      };
 
-      async function loadData() {
-        var results = await Promise.all([
+      const loadData = async () => {
+        const [englishData, chineseRows] = await Promise.all([
           fetchJson("data.json"),
           fetchJson("data-cn.json"),
         ]);
-        var englishData = results[0];
-        var chineseRows = results[1];
-        var englishRows = Array.isArray(englishData)
-          ? englishData
+        
+        const englishRows = Array.isArray(englishData) 
+          ? englishData 
           : englishData.entries || [];
-        var chineseMap = new Map(
-          chineseRows.map(function (item) {
-            return [item.name, item.zh];
-          }),
-        );
+          
+        const chineseMap = new Map(chineseRows.map(item => [item.name, item.zh]));
 
         return {
-          generatedAt: Array.isArray(englishData)
-            ? null
+          generatedAt: Array.isArray(englishData) 
+            ? null 
             : englishData.generatedAt || null,
-          rows: englishRows.map(function (item) {
-            return {
-              nameEn: item.name,
-              nameZh: chineseMap.get(item.name) || "",
-              raw: item.raw,
-            };
-          }),
+          rows: englishRows.map(item => ({
+            nameEn: item.name,
+            nameZh: chineseMap.get(item.name) || "",
+            raw: item.raw,
+          })),
         };
-      }
+      };
 
-      async function main() {
-        var status = document.getElementById("status");
-        var input = document.querySelector(".search");
+      // Main initialization
+      const main = async () => {
+        const status = document.getElementById("status");
+        const input = document.querySelector(".search");
 
-        document.querySelectorAll("[data-lang-link]").forEach(function (link) {
-          link.addEventListener("click", function () {
+        document.querySelectorAll("[data-lang-link]").forEach(link => {
+          link.addEventListener("click", () => {
             savePreferredLanguage(link.getAttribute("data-lang-link"));
           });
         });
@@ -493,9 +458,9 @@
         status.textContent = PAGE.loadingText;
 
         try {
-          var data = await loadData();
-          state.rows = data.rows;
-          state.generatedAt = data.generatedAt;
+          const data = await loadData();
+          Object.assign(state, { rows: data.rows, generatedAt: data.generatedAt });
+          
           status.textContent = "";
           updateGeneratedAt();
           updateStructuredData();
@@ -506,22 +471,15 @@
             item: '<tr><td class="name"><span class="nameDisplay"></span><span class="rowIndex search-meta"></span><span class="nameEn search-meta"></span><span class="nameZh search-meta"></span></td><td class="raw"><span class="detailsDisplay"></span><span class="rawSearch search-meta"></span></td></tr>',
           });
 
-          state.list.add(
-            state.rows.map(function (row, index) {
-              return {
-                rowIndex: String(index),
-                nameEn: row.nameEn,
-                nameZh: row.nameZh,
-                rawSearch: row.raw,
-              };
-            }),
-          );
+          state.list.add(state.rows.map((row, index) => ({
+            rowIndex: String(index),
+            nameEn: row.nameEn,
+            nameZh: row.nameZh,
+            rawSearch: row.raw,
+          })));
 
-          input.addEventListener("input", function () {
-            state.list.search(input.value);
-          });
-
-          state.list.on("updated", function () {
+          input?.addEventListener("input", (e) => state.list.search(e.target.value));
+          state.list.on("updated", () => {
             updateCount();
             renderRows();
           });
@@ -531,7 +489,7 @@
         } catch (error) {
           status.textContent = PAGE.loadErrorText;
         }
-      }
+      };
 
       main();
     </script>
