@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -18,219 +18,20 @@
     <link rel="alternate" hreflang="zh-CN" href="index-zh.html" />
     <link rel="alternate" hreflang="x-default" href="index.html" />
     <script id="structured-data" type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "CollectionPage",
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "China University Entity List",
+      "inLanguage": "en",
+      "mainEntity": {
+        "@type": "ItemList",
         "name": "China University Entity List",
-        "inLanguage": "en",
-        "mainEntity": {
-          "@type": "ItemList",
-          "name": "China University Entity List",
-          "numberOfItems": 0,
-          "itemListElement": []
-        }
+        "numberOfItems": 0,
+        "itemListElement": []
       }
+    }
     </script>
-    <style>
-      :root {
-        color-scheme: light;
-        --bg: #f5f1e8;
-        --panel: #fffdf8;
-        --ink: #1f2933;
-        --muted: #5b6670;
-        --line: #d9d0c1;
-        --accent: #9b3d2f;
-        --highlight: #ffe08a;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      body {
-        margin: 0;
-        font-family: Georgia, "Times New Roman", serif;
-        color: var(--ink);
-        background:
-          radial-gradient(
-            circle at top left,
-            rgba(166, 60, 47, 0.12),
-            transparent 30%
-          ),
-          linear-gradient(180deg, #efe7d6 0%, var(--bg) 100%);
-      }
-
-      main {
-        max-width: 1100px;
-        margin: 0 auto;
-        padding: 40px 20px 56px;
-      }
-
-      h1 {
-        margin: 0 0 8px;
-        font-size: clamp(2rem, 4vw, 3.4rem);
-        line-height: 1;
-        letter-spacing: -0.03em;
-      }
-
-      p {
-        margin: 0;
-        color: var(--muted);
-      }
-
-      a {
-        color: var(--accent);
-      }
-
-      .panel {
-        margin-top: 28px;
-        padding: 20px;
-        background: rgba(255, 253, 248, 0.92);
-        border: 1px solid var(--line);
-        border-radius: 18px;
-        box-shadow: 0 20px 60px rgba(31, 41, 51, 0.08);
-        backdrop-filter: blur(10px);
-      }
-
-      .page-top {
-        display: flex;
-        gap: 16px;
-        align-items: flex-start;
-        justify-content: space-between;
-        flex-wrap: wrap;
-      }
-
-      .lang-switch {
-        display: inline-flex;
-        gap: 6px;
-        padding: 6px;
-        background: rgba(255, 253, 248, 0.92);
-        border: 1px solid var(--line);
-        border-radius: 999px;
-      }
-
-      .lang-switch a {
-        padding: 8px 14px;
-        border-radius: 999px;
-        color: var(--muted);
-        text-decoration: none;
-      }
-
-      .lang-switch a.active {
-        background: var(--accent);
-        color: #fff;
-      }
-
-      .noscript-note {
-        margin-bottom: 20px;
-        padding: 14px 16px;
-        background: #fff7eb;
-        border: 1px solid var(--line);
-        border-radius: 14px;
-        color: var(--muted);
-      }
-
-      .toolbar {
-        display: flex;
-        gap: 16px;
-        align-items: center;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        margin-bottom: 18px;
-      }
-
-      .search {
-        width: min(420px, 100%);
-        padding: 12px 14px;
-        border: 1px solid var(--line);
-        border-radius: 12px;
-        background: #fff;
-        color: var(--ink);
-        font: inherit;
-      }
-
-      .count {
-        font-size: 0.95rem;
-        color: var(--muted);
-      }
-
-      .status {
-        margin-bottom: 14px;
-        color: var(--muted);
-        font-size: 0.95rem;
-      }
-
-      footer {
-        margin-top: 18px;
-        color: var(--muted);
-      }
-
-      footer small {
-        display: inline-block;
-      }
-
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        background: var(--panel);
-        overflow: hidden;
-        border-radius: 14px;
-      }
-
-      th,
-      td {
-        padding: 14px 16px;
-        text-align: left;
-        vertical-align: top;
-        border-bottom: 1px solid var(--line);
-      }
-
-      th {
-        font-size: 0.82rem;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: var(--muted);
-      }
-
-      tbody tr:last-child td {
-        border-bottom: 0;
-      }
-
-      .name {
-        width: 28%;
-        font-weight: 700;
-      }
-
-      .raw {
-        color: var(--muted);
-        line-height: 1.5;
-      }
-
-      .search-meta {
-        display: none;
-      }
-
-      mark {
-        background: var(--highlight);
-        padding: 0 0.1em;
-        border-radius: 0.2em;
-      }
-
-      @media (max-width: 720px) {
-        .page-top {
-          flex-direction: column;
-        }
-
-        th:nth-child(2),
-        td:nth-child(2) {
-          display: none;
-        }
-
-        .name {
-          width: auto;
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="common.css" />
   </head>
   <body>
     <main>
@@ -251,8 +52,7 @@
               href="https://www.bis.gov/regulations/ear/744#supplement-4-744"
               target="_blank"
               rel="noreferrer"
-              >EAR 744 Supplement No. 4</a
-            >.
+            >EAR 744 Supplement No. 4</a>.
           </p>
         </div>
 
@@ -262,10 +62,23 @@
             href="index.html"
             data-lang-link="en"
             aria-current="page"
-            >English</a
-          >
+          >English</a>
           <a href="index-zh.html" data-lang-link="zh">中文</a>
         </nav>
+        <a
+          href="https://github.com/kaixinol/china-university-entity-list"
+          class="github-link"
+          title="GitHub Repository"
+          target="_blank"
+          rel="noopener"
+        >
+          <img
+            src="github-brands-solid-full.svg"
+            alt="GitHub"
+            width="48"
+            height="48"
+          >
+        </a>
       </div>
 
       <section class="panel">
@@ -298,7 +111,9 @@
       </section>
     </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/list.js@2.3.1/dist/list.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/list.js@2.3.1/dist/list.min.js"
+    ></script>
     <script>
       const PAGE = {
         lang: "en",
@@ -337,7 +152,10 @@
         if (!preferred || preferred === PAGE.lang) return;
 
         const target = PAGE.alternatePath;
-        if (location.pathname.endsWith("/" + target) || location.pathname === target) return;
+        if (
+          location.pathname.endsWith("/" + target) ||
+          location.pathname === target
+        ) return;
 
         location.replace(target);
       }
@@ -345,38 +163,53 @@
       maybeRedirectToPreferredLanguage();
 
       // HTML utilities
-      const escapeHtml = (str) => 
-        String(str).replace(/[&<>"']/g, (char) => 
-          ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]
+      const escapeHtml = (str) =>
+        String(str).replace(
+          /[&<>"']/g,
+          (char) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#39;",
+            })[char],
         );
 
       const highlight = (value, query) => {
         const escaped = escapeHtml(value);
         if (!query) return escaped;
-        
+
         const pattern = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-        return escaped.replace(new RegExp(`(${pattern})`, "ig"), "<mark>$1</mark>");
+        return escaped.replace(
+          new RegExp(`(${pattern})`, "ig"),
+          "<mark>$1</mark>",
+        );
       };
 
       // UI updates
       const updateCount = () => {
-        document.getElementById("count").textContent = state.list?.visibleItems.length || 0;
+        document.getElementById("count").textContent =
+          state.list?.visibleItems.length || 0;
       };
 
       const updateGeneratedAt = () => {
-        const date = state.generatedAt ? new Date(state.generatedAt) : new Date();
-        const formatted = isNaN(date.getTime()) 
+        const date = state.generatedAt
+          ? new Date(state.generatedAt)
+          : new Date();
+        const formatted = isNaN(date.getTime())
           ? String(state.generatedAt || "")
           : date.toLocaleString("en-US", {
-              year: "numeric",
-              month: "2-digit",
-              day: "2-digit",
-              hour: "2-digit",
-              minute: "2-digit",
-              second: "2-digit",
-            });
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+          });
 
-        document.getElementById("generated-at").textContent = `${PAGE.generatedAtLabel}: ${formatted}`;
+        document.getElementById("generated-at").textContent =
+          `${PAGE.generatedAtLabel}: ${formatted}`;
       };
 
       const updateStructuredData = () => {
@@ -394,27 +227,37 @@
           },
         }));
 
-        node.textContent = JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "CollectionPage",
-          name: PAGE.pageTitle,
-          inLanguage: "en",
-          mainEntity: {
-            "@type": "ItemList",
+        node.textContent = JSON.stringify(
+          {
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
             name: PAGE.pageTitle,
-            numberOfItems: itemListElement.length,
-            itemListElement,
+            inLanguage: "en",
+            mainEntity: {
+              "@type": "ItemList",
+              name: PAGE.pageTitle,
+              numberOfItems: itemListElement.length,
+              itemListElement,
+            },
           },
-        }, null, 2);
+          null,
+          2,
+        );
       };
 
       const renderRows = () => {
         const query = document.querySelector(".search")?.value.trim() || "";
-        state.list?.visibleItems.forEach(entry => {
+        state.list?.visibleItems.forEach((entry) => {
           const index = Number(entry.values().rowIndex);
           const row = state.rows[index];
-          entry.elm.querySelector(".nameDisplay").innerHTML = highlight(row.nameEn, query);
-          entry.elm.querySelector(".detailsDisplay").innerHTML = highlight(row.raw, query);
+          entry.elm.querySelector(".nameDisplay").innerHTML = highlight(
+            row.nameEn,
+            query,
+          );
+          entry.elm.querySelector(".detailsDisplay").innerHTML = highlight(
+            row.raw,
+            query,
+          );
         });
       };
 
@@ -430,18 +273,20 @@
           fetchJson("data.json"),
           fetchJson("data-cn.json"),
         ]);
-        
-        const englishRows = Array.isArray(englishData) 
-          ? englishData 
+
+        const englishRows = Array.isArray(englishData)
+          ? englishData
           : englishData.entries || [];
-          
-        const chineseMap = new Map(chineseRows.map(item => [item.name, item.zh]));
+
+        const chineseMap = new Map(
+          chineseRows.map((item) => [item.name, item.zh]),
+        );
 
         return {
-          generatedAt: Array.isArray(englishData) 
-            ? null 
+          generatedAt: Array.isArray(englishData)
+            ? null
             : englishData.generatedAt || null,
-          rows: englishRows.map(item => ({
+          rows: englishRows.map((item) => ({
             nameEn: item.name,
             nameZh: chineseMap.get(item.name) || "",
             raw: item.raw,
@@ -454,7 +299,7 @@
         const status = document.getElementById("status");
         const input = document.querySelector(".search");
 
-        document.querySelectorAll("[data-lang-link]").forEach(link => {
+        document.querySelectorAll("[data-lang-link]").forEach((link) => {
           link.addEventListener("click", () => {
             savePreferredLanguage(link.getAttribute("data-lang-link"));
           });
@@ -464,8 +309,11 @@
 
         try {
           const data = await loadData();
-          Object.assign(state, { rows: data.rows, generatedAt: data.generatedAt });
-          
+          Object.assign(state, {
+            rows: data.rows,
+            generatedAt: data.generatedAt,
+          });
+
           status.textContent = "";
           updateGeneratedAt();
           updateStructuredData();
@@ -473,7 +321,8 @@
           state.list = new List("entities", {
             valueNames: ["rowIndex", "nameEn", "rawSearch"],
             searchColumns: ["nameEn", "rawSearch"],
-            item: '<tr><td class="name"><span class="nameDisplay"></span><span class="rowIndex search-meta"></span><span class="nameEn search-meta"></span></td><td class="raw"><span class="detailsDisplay"></span><span class="rawSearch search-meta"></span></td></tr>',
+            item:
+              '<tr><td class="name"><span class="nameDisplay"></span><span class="rowIndex search-meta"></span><span class="nameEn search-meta"></span></td><td class="raw"><span class="detailsDisplay"></span><span class="rawSearch search-meta"></span></td></tr>',
           });
 
           state.list.add(state.rows.map((row, index) => ({
@@ -482,7 +331,10 @@
             rawSearch: row.raw,
           })));
 
-          input?.addEventListener("input", (e) => state.list.search(e.target.value));
+          input?.addEventListener(
+            "input",
+            (e) => state.list.search(e.target.value),
+          );
           state.list.on("updated", () => {
             updateCount();
             renderRows();
